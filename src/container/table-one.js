@@ -1,7 +1,7 @@
 import React from 'react';
 import superagent from 'superagent';
 import { Button,Menu } from 'semantic-ui-react';
-import { Redirect,Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Users from '../component/user';
 
 class FetchData extends React.Component{
@@ -21,6 +21,20 @@ class FetchData extends React.Component{
     anotherTable =() => {
         this.props.history.push('/tableSheet/table2')
     }
+    getKeys = function(){
+        
+        // console.log("Get Key function ");
+        // console.log("state :",this.state.newArray);
+        if(this.state.newArray.length > 0 && this.state.newArray.length<=1){
+            console.log("length :",this.state.newArray.length)
+            console.log("get function keys : ",Object.keys(this.state.newArray[0]));
+            let key = Object.keys(this.state.newArray[0])
+            console.log("key : ",key);
+            return <th key={key}></th>
+        }
+        
+        //console.log(Object.keys(this.state.newArray[0]));
+        }
 
     componentDidMount(){
         let array=[];
@@ -65,10 +79,10 @@ class FetchData extends React.Component{
                 let obj ={
                     total : res.body.total,
                     user:res.body.issues[0].fields.assignee.name,
-                    timeOriginalEstimate:timeOriginalEstimate,
+                    timeOriginalEstimate:timeOriginalEstimate/3600,
                     storyPoint:storyPoint,
-                    timeEstimate:timeEstimate,
-                    timeSpent:timeSpent
+                    timeEstimate:timeEstimate/3600,
+                    timeSpent:timeSpent/3600
                     // issueLength:res.body.issue.length()
                 }
                   this.setState({newArray: [...this.state.newArray, obj]
@@ -85,25 +99,25 @@ class FetchData extends React.Component{
 
 
     render(){
-         //debugger;
+         debugger;
 
        let posts = 
         
        <table class="table">
        <thead class="thead-dark">
                
-               <tr>
-               <th scope="col"><b>User</b></th>
+               <tr>{this.getKeys()}
+               {/* <th scope="col"><b>User</b></th>
                <th scope="col"><b>Issue Count</b></th>
                <th scope="col"><b>Story Points</b></th>
                <th scope="col"><b>Original Estimate(in secs)</b></th>
                <th scope="col"><b>Remaining Estimate(in secs)</b></th>
-               <th scope="col"><b>Time Spent(in secs)</b></th>
+               <th scope="col"><b>Time Spent(in secs)</b></th> */}
                        
                        
                    </tr> 
                    </thead>
-                   
+{/*                    
                  {this.state.newArray.map(l => (      //array to array of JSX
                 
                     <Users user={l.user} 
@@ -112,7 +126,7 @@ class FetchData extends React.Component{
                            timeOriginalEstimate={l.timeOriginalEstimate}
                            timeEstimate={l.timeEstimate}
                            timeSpent={l.timeSpent} />
-                ))}
+                ))} */}
                 
                 </table>
                        
