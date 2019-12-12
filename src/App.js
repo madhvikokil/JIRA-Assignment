@@ -15,8 +15,8 @@ import RMOS from './container/table-one';
 function App() {
   let routes =(
     <Switch>
-      <Route path="/" exact component={Fetch} />
-     {/* <Route path="/" exact component={Login} /> */}
+      <Route path="/table" exact component={Fetch} />
+     <Route path="/" exact component={Login} />
     <Route path="/tableSheet/table2" component={SPAS} />
    {/* <Route path="/tableSheet" component={RMOS } />
     <Route path="/logout"  component={Logout} /> */}

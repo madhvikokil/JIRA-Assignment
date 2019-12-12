@@ -99,7 +99,7 @@ class FetchData extends React.Component{
 
 
     render(){
-         debugger;
+         //debugger;
 
        let posts = 
         

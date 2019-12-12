@@ -15,6 +15,7 @@ class Login extends React.Component{
     routeToTables = () => {
         let a = window.btoa(`${this.state.email}:${this.state.password}`);
         console.log(a);
+        localStorage.setItem('token',a);
         superagent
             .get(`${this.state.url}/rest/api/2/user/assignable/search?project=REAC`)
             .set('Access-Control-Allow-Credentials', '*')
@@ -26,7 +27,7 @@ class Login extends React.Component{
                 console.log("response : ",res.body);
                 console.log("Table routing");
                 alert("Successfully Logged...");
-                this.props.history.push('/tableSheet');
+                this.props.history.push('/table');
       
             })
     }
