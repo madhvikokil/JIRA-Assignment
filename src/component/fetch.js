@@ -1,6 +1,9 @@
 import React from 'react';
 import FetchApi from '../utility/fetchApi';
 import FetchTable from '../utility/fetchTable';
+import { Link } from 'react-router-dom';
+import { Button,Menu } from 'semantic-ui-react';
+
 
 class Fetch extends React.Component{
 
@@ -18,8 +21,8 @@ class Fetch extends React.Component{
     const data2 = await this.data2();
     console.log("Data 2  => ",data2);
     console.log("updated array : ",this.state.actualData);
-    const data3 = await this.tableData();
-    console.log(data3);
+    // const data3 = await this.tableData();
+    // console.log(data3);
   
     }
 
@@ -36,7 +39,7 @@ class Fetch extends React.Component{
         console.log("response : ",res);
         console.log(res.length);
         for(let i=0;i<res.length;i++){
-              arrayOfUsers.push(res[i].key);
+              arrayOfUsers.push(res[i].name);
             
             }
             
@@ -74,12 +77,12 @@ class Fetch extends React.Component{
         }
         //console.log(count);
         let obj ={
-            total : res.total,
             user:res.issues[0].fields.assignee.name,
-            timeOriginalEstimate:timeOriginalEstimate/3600,
-            storyPoint:storyPoint,
-            timeEstimate:timeEstimate/3600,
-            timeSpent:timeSpent/3600
+            issue_count : res.total,
+            story_Point:storyPoint,
+            Original_Estimate:timeOriginalEstimate/3600,
+            remaining_Estimate:timeEstimate/3600,
+            time_Spent:timeSpent/3600
             // issueLength:res.issue.length()
         }
         // array.push(obj);
@@ -98,6 +101,11 @@ class Fetch extends React.Component{
         })
       
 
+    }
+
+    anotherTable=()=>{
+      console.log("Next Table");
+      this.props.history.push("/tableSheet/table2");
     }
         // if(arrayOfUsers.length == 5){
         //   for(let i=0;i<5;i++){
@@ -172,32 +180,39 @@ class Fetch extends React.Component{
   // getKeys=() => {
   //   console.log("get ");
   
-    
+  logoutHandler=() =>{
+    console.log("logout");
+  }
   render(){
     debugger;
-    let posts = <table>
-    {this.state.actualData.length == this.state.data.length?'rgr':null
+    let posts ;
+    if(this.state.actualData.length > 0) {
+      posts =   <>
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              {FetchTable.tableHeader(this.state.actualData)}
+            </tr>
+          </thead>
+          <tbody>
+              {FetchTable.tableRow(this.state.actualData)}
+          </tbody>
+          <tfoot>
+              {FetchTable.tableFooter(this.state.actualData)}
+          </tfoot>
+        </table><hr/> 
+      <br/>
+      
+        </>
     }
-    {/* <tr>
-      <th>{this.getKeys()}</th>
-    </tr> */}
-    {/* {this.state.actualData.map(id => (
-      <tr>
-         <td><b>{id.user}</b></td>
-         <td><b>{id.timeOriginalEstimate}</b></td>
-         <td><b>{id.timeEstimate}</b></td>
-         <td><b>{id.storyPoint}</b></td>
-         <td><b>{id.timeSpent}</b></td>
-         <td><b>{id.total}</b></td>
-      </tr>
-       
-    ))} */}
   
-  </table>
-    return(
-      <>
-  <h1>Show</h1>
+  return(
+      <><br />
+  <h1>Release Multiple Output Statistics</h1>
+  <Button class="ui right floated  button"  as={Link} to ='/logout'>Log out</Button>
+  <br /><br />
   {posts}
+  <Button onClick={this.anotherTable}> Next >> </Button>
       
       </>
 

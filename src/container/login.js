@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import superagent from 'superagent';
+import FetchApi from '../utility/fetchApi';
 
 
 class Login extends React.Component{
@@ -27,9 +28,20 @@ class Login extends React.Component{
                 console.log("response : ",res.body);
                 console.log("Table routing");
                 alert("Successfully Logged...");
-                this.props.history.push('/table');
+                this.props.history.push('/tableSheet/table1');
       
             })
+        // FetchApi.callApi(`${this.state.url}/rest/api/2/user/assignable/search?project=REAC`)
+        // .then(res=>{
+        //     localStorage.setItem('url',`${this.state.url}`);
+        //         console.log("response : ",res.body);
+        //         console.log("Table routing");
+        //         alert("Successfully Logged...");
+        //         this.props.history.push('/tableSheet/table1');
+        // }).catch(error=>{
+        //     alert("Invalid User",error);
+        // })
+        
     }
 
     changeEmail = (event) => {
