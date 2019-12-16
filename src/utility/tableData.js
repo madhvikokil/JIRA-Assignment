@@ -11,17 +11,19 @@ export default {
     
     tableRow: (props) =>{
                   
-        var items = props;
+        let items = props;
         let keys = Object.keys(props[0]);
         return items.map((row, index)=>{
-        return <tr key={index}><FetchBody.RenderRow key={index} data={row} keys={keys}/></tr>
+
+            
+            return <tr key={index}><FetchBody.RenderRow key={index} data={row} keys={keys}/></tr>
         })
     },
 
     tableFooter: (props) =>{
-        let o = Object.values(props[0]);
-        return o.map((key)=>{
-                return <th key={key}></th>
-                })
+        let o = Object.values(props);
+        return o.map((key)=>(
+        <th key={key}>{key}</th>
+                ))
     }
  }

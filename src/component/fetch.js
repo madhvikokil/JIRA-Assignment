@@ -1,8 +1,9 @@
 import React from 'react';
 import FetchApi from '../utility/fetchApi';
-import FetchTable from '../utility/fetchTable';
+import FetchTable from '../utility/tableData';
 import { Link } from 'react-router-dom';
-import { Button,Menu } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
+import './fetch.css';
 
 
 class Fetch extends React.Component{
@@ -10,7 +11,8 @@ class Fetch extends React.Component{
   state={
         data:[],
         actualData:[],
-        length:''
+        length:'',
+        total:[]
   }
 
  
@@ -69,13 +71,18 @@ class Fetch extends React.Component{
         let timeEstimate=0;
         let timeSpent=0;
         let count = res.total;
+        let issueCountSum = 0;
+        let storyPointSum = 0;
+        let originalSum = 0;
+        let remainingSum = 0;
+        let spentSum = 0;
         for(let i =0;i<count ;i++){
             storyPoint =storyPoint +  res.issues[i].fields.customfield_10024;
             timeEstimate = timeEstimate + res.issues[i].fields.timeestimate;
             timeSpent = timeSpent + res.issues[i].fields.timespent;
             timeOriginalEstimate = timeOriginalEstimate + res.issues[i].fields.timeoriginalestimate;
         }
-        //console.log(count);
+ 
         let obj ={
             user:res.issues[0].fields.assignee.name,
             issue_count : res.total,
@@ -83,16 +90,32 @@ class Fetch extends React.Component{
             Original_Estimate:timeOriginalEstimate/3600,
             remaining_Estimate:timeEstimate/3600,
             time_Spent:timeSpent/3600
-            // issueLength:res.issue.length()
+            
+            
         }
-        // array.push(obj);
-        // let s = [...obj];
+       
         console.log("pushed array : ",array);
         this.setState({actualData:[...this.state.actualData,obj]});
         if(this.state.data.length-1 == this.state.actualData.length-1){
+
+          for(let i=0;i<this.state.actualData.length;i++){
+            issueCountSum = issueCountSum + this.state.actualData[i].issue_count;
+             storyPointSum = storyPointSum + this.state.actualData[i].story_Point;
+            originalSum = originalSum + this.state.actualData[i].Original_Estimate;
+            remainingSum = remainingSum + this.state.actualData[i].remaining_Estimate;
+            spentSum = spentSum + this.state.actualData[i].time_Spent;
+          }
+          let obj2 = {
+              issueCountSum : issueCountSum,
+              storyPointSum : storyPointSum,
+              originalSum : originalSum,
+              remainingSum : remainingSum,
+              spentSum : spentSum
+          }
+          this.setState({totalCount:obj2});
           resolve(array);
-        }
-        
+        }  
+             
       }).catch(error => {
         console.log("error : ",error);
         reject(error);
@@ -107,81 +130,24 @@ class Fetch extends React.Component{
       console.log("Next Table");
       this.props.history.push("/tableSheet/table2");
     }
-        // if(arrayOfUsers.length == 5){
-        //   for(let i=0;i<5;i++){
-        //     const anotherApi =  FetchApi.callApi(`${url}/rest/api/3/search?jql=assignee=${arrayOfUsers[i]}`);
-        //     anotherApi.then(response => {
-        //       console.log("response : ",response);
-        //     })
-        //   }
-         
-        // }
-         
-        
-        
-        
-    // <FetchApi url='https://madhvi.atlassian.net/rest/api/2/user/assignable/search?project=REAC'/>
-    //url ={'https://madhvi.atlassian.net/rest/api/2/user/assignable/search?project=REAC'}/>
-  //   // superagent
-  //   // .get(`https://madhvi.atlassian.net/rest/api/2/user/assignable/search?project=REAC`)
-  //   // .set('Access-Control-Allow-Credentials', '*')
-  //   // .set('Accept', 'application/json')
-  //   // .set('Authorization', 'Basic dmFpc2huYXZpLmphd2FuamFsQGN1ZWxvZ2ljLmNvbTo3NmNVSXByaXVDaDlpTm1jZHJXZTA3RDQ=')
-   
-  //   console.log("response : ",response.body.length);
-  //   for(let i=0;i<response.body.length;i++){
-  //     arrayOfUsers.push(response.body[i].key);
-      
-  //   }
-  //   console.log("array : ",arrayOfUsers);
-    
-  //   for(let i=0;i<arrayOfUsers.length;i++){
-  //     const re = await 
-  //     superagent
-  //     .get(`https://madhvi.atlassian.net/rest/api/3/search?jql=assignee=${arrayOfUsers[i]}`)
-  //     .set('Access-Control-Allow-Credentials', '*')
-  //     .set('Accept', 'application/json')
-  //     .set('Authorization', 'Basic dmFpc2huYXZpLmphd2FuamFsQGN1ZWxvZ2ljLmNvbTo3NmNVSXByaXVDaDlpTm1jZHJXZTA3RDQ=')
-     
-  //     .end((err, res) => {
-  //       if (err) { return console.log("error : ",err); }
-  //       console.log("url 2 ");
-  //     let timeOriginalEstimate = 0;
-  //     let storyPoint=0;
-  //     let timeEstimate=0;
-  //     let timeSpent=0;
-  //     let count = res.total;
-  //     for(let i =0;i<count ;i++){
-  //         storyPoint =storyPoint +  res.issues[i].fields.customfield_10024;
-  //         timeEstimate = timeEstimate + res.issues[i].fields.timeestimate;
-  //         timeSpent = timeSpent + res.issues[i].fields.timespent;
-  //         timeOriginalEstimate = timeOriginalEstimate + res.issues[i].fields.timeoriginalestimate;
-  //     }
-      
-  //    obj ={
-  //         total : res.total,
-  //         user:res.issues[0].fields.assignee.name,
-  //         timeOriginalEstimate:timeOriginalEstimate/3600,
-  //         storyPoint:storyPoint,
-  //         timeEstimate:timeEstimate/3600,
-  //         timeSpent:timeSpent/3600
-  //         // issueLength:res.issue.length()
-  //     }
-  //     dataOfUsers.push(obj);
-  //     })
-  //   }
-  //   //this.setState({actualData:obj});
-    
-  //   this.setState({actualData:dataOfUsers});
-  //   console.log("this.state.actualData : ", this.state.actualData);
-   
-  // }
-
-  // getKeys=() => {
-  //   console.log("get ");
+       
   
   logoutHandler=() =>{
     console.log("logout");
+  }
+
+  progressBar=() => {
+    console.log("progress bar")
+    let issueCountTotal = 100;
+    let refValue = 60;
+    let di = refValue * 100 / issueCountTotal;
+    let a = di + '%';
+    console.log(di+'%');
+    return(<>
+      <div class="progress" width="100">
+          <span class="progress-bar" style={{width:a}}>{a}</span>
+      </div></>
+    )
   }
   render(){
     debugger;
@@ -192,14 +158,20 @@ class Fetch extends React.Component{
           <thead class="thead-dark">
             <tr>
               {FetchTable.tableHeader(this.state.actualData)}
+              {this.progressBar()}
             </tr>
           </thead>
           <tbody>
               {FetchTable.tableRow(this.state.actualData)}
           </tbody>
+          {this.state.totalCount ? 
           <tfoot>
-              {FetchTable.tableFooter(this.state.actualData)}
-          </tfoot>
+         <th>Total </th> {FetchTable.tableFooter(this.state.totalCount)}
+                         
+         
+      </tfoot> : null
+          }
+          
         </table><hr/> 
       <br/>
       
@@ -213,6 +185,7 @@ class Fetch extends React.Component{
   <br /><br />
   {posts}
   <Button onClick={this.anotherTable}> Next >> </Button>
+  {this.progressBar()}
       
       </>
 

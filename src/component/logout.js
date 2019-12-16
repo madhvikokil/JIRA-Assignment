@@ -6,6 +6,7 @@ class Logout extends Component {
     componentDidMount(){
         localStorage.clear('url');
     }
+    
     render() {
         return <Redirect to="/" />
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import FetchApi from '../utility/fetchApi';
-import FetchTable from '../utility/fetchTable';
-import { Button,Menu } from 'semantic-ui-react';
+import FetchTable from '../utility/tableData';
+import { Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 
@@ -23,6 +23,7 @@ class Fetch2 extends React.Component{
     const data2 = await this.data2();
     console.log("Data 2  => ",data2);
     console.log("updated array : ",this.state.actualData);
+    
     // const data3 = await this.tableData();
     // console.log(data3);
   
@@ -76,7 +77,13 @@ class Fetch2 extends React.Component{
                 //let openStoryPoint=0;
                 let acceptedStoryPoint=0;
                 let resolvedStoryPoint=0;
-                
+                let inProgressSum=0;
+                let acceptedSum=0;
+                let todoSum = 0;
+                let reviewSum = 0;
+                let resolvedSum = 0;
+                let doneSum = 0;
+                let storyPointSum = 0;
 
                 let storyPoint=0;
                 let count = res.total;
@@ -85,48 +92,30 @@ class Fetch2 extends React.Component{
                   
                     if(res.issues[i].fields.status.name == "In Progress"){
                         inProgressStoryPointCount = inProgressStoryPointCount + res.issues[i].fields.customfield_10024;
-                        //progressSum = progressSum + inProgressStoryPointCount;
-                        //totalArray.push(progressSum);
-                       // console.log("sum : ",progressSum);
+                        
                       }
                     
                      if(res.issues[i].fields.status.name == "To Do"){
                         todoStoryPoint = todoStoryPoint + res.issues[i].fields.customfield_10024;
-                         //todoSum = todoSum + todoStoryPoint;
-                        // totalArray.push(todoSum);
-                        // console.log("sum : ",todoSum);
+            
                       }
                     
                       if(res.issues[i].fields.status.name == "Done"){
                         doneStoryPoint = doneStoryPoint + res.issues[i].fields.customfield_10024;
-                         //doneSum = doneSum + doneStoryPoint;
-                        // console.log("sum : ",doneSum);
-                        // totalArray.push(doneSum);
+                    
                       }
                     
                        if(res.issues[i].fields.status.name == "Review"){
                         reviewStoryPoint = reviewStoryPoint + res.issues[i].fields.customfield_10024;
-                        //reviewSum = reviewSum + reviewStoryPoint;
-                        // console.log("sum : ",reviewSum);
-                        // totalArray.push(reviewSum);
+                        
                       }
-                    
-                      //  if(res.body.issues[i].fields.status.name == "Open"){
-                      //   openStoryPoint = openStoryPoint + res.body.issues[i].fields.customfield_10024;
-                      // }
-                    
+
                        if(res.issues[i].fields.status.name == "Accepted"){
                         acceptedStoryPoint = acceptedStoryPoint + res.issues[i].fields.customfield_10024;
-                         //acceptedSum = acceptedSum + acceptedStoryPoint;
-                        // console.log("sum : ",acceptedSum);
-                        // totalArray.push(acceptedSum);
                       }
                     
                        if(res.issues[i].fields.status.name == "Resolved"){
                         resolvedStoryPoint = resolvedStoryPoint + res.issues[i].fields.customfield_10024;
-                        // resolveSum = resolveSum + resolvedStoryPoint;
-                        // console.log("sum : ",resolveSum);
-                        // totalArray.push(resolveSum);
                       }
 
                 }
@@ -137,7 +126,6 @@ class Fetch2 extends React.Component{
                     
                     assignee:res.issues[0].fields.assignee.name,
                     todo:todoStoryPoint,
-                    //open_Story_Point:openStoryPoint,
                     accepted:acceptedStoryPoint,
                     in_Progress:inProgressStoryPointCount,
                     review:reviewStoryPoint,
@@ -148,17 +136,29 @@ class Fetch2 extends React.Component{
                     
                 }
                 this.setState({actualData:[...this.state.actualData,obj]});
-                let totalObj = {
-                   // todoCount : todoCount + this.state.actualData.todo,
-
-                }
-                
+                         
                 if(this.state.data.length-1 == this.state.actualData.length-1){
-          resolve(array);
-        }
-                // });
-                // console.log("new Array : ",this.state.newArray);
-        
+                  for(let i=0;i<this.state.actualData.length;i++){
+                    inProgressSum = inProgressSum + this.state.actualData[i].in_Progress;
+                    acceptedSum = acceptedSum + this.state.actualData[i].accepted;
+                    todoSum = todoSum + this.state.actualData[i].todo;
+                    reviewSum = reviewSum + this.state.actualData[i].review;
+                    resolvedSum = resolvedSum + this.state.actualData[i].resolved;
+                    doneSum = doneSum + this.state.actualData[i].done;
+                    storyPointSum = storyPointSum + this.state.actualData[i].storyPoint;
+                  }
+                  let obj2 = {
+                    todoSum :todoSum,
+                    acceptedSum :acceptedSum,
+                    inProgressSum:inProgressSum,
+                    reviewSum :reviewSum,
+                    resolvedSum :resolvedSum,
+                    doneSum :doneSum,
+                    storyPointSum:storyPointSum
+                  }
+                this.setState({totalCount:obj2});
+                resolve(array);
+            }
       }).catch(error => {
         console.log("error : ",error);
         reject(error);
@@ -174,6 +174,10 @@ class Fetch2 extends React.Component{
     lastTable=()=>{
         this.props.history.goBack();
     }
+
+    progressBar =() =>{
+      console.log("Showing the progress bars");
+    }
    
    
   render(){
@@ -187,17 +191,21 @@ class Fetch2 extends React.Component{
               {FetchTable.tableHeader(this.state.actualData)}
             </tr>
           </thead>
+
           <tbody>
               {FetchTable.tableRow(this.state.actualData)}
           </tbody>
+        {this.state.totalCount ? 
+          
           <tfoot>
-              {/* Total : {FetchTable.tableFooter(this.state.totalCount)} */}
+            <tr>
+              <th>Total</th>{FetchTable.tableFooter(this.state.totalCount)}
+              {this.progressBar()}
+            </tr>
           </tfoot>
-        </table> 
-        <hr/>
+        :null}   
+       </table> 
         <br/>
-        
-        
         </>
     }
   
@@ -213,6 +221,5 @@ class Fetch2 extends React.Component{
     )
   }
 }
-
 
 export default Fetch2;
