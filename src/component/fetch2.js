@@ -4,8 +4,6 @@ import FetchTable from '../utility/tableData';
 import { Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-
-
 class Fetch2 extends React.Component{
 
   state={
@@ -15,18 +13,13 @@ class Fetch2 extends React.Component{
         totalCount:[]
   }
 
- 
-     componentDidMount =async()=>{ 
+  componentDidMount =async()=>{ 
 
     const data1 = await this.data();
     console.log("DATA 1 ===>>>", data1);
     const data2 = await this.data2();
     console.log("Data 2  => ",data2);
     console.log("updated array : ",this.state.actualData);
-    
-    // const data3 = await this.tableData();
-    // console.log(data3);
-  
     }
 
     tableData=()=>{
@@ -43,14 +36,11 @@ class Fetch2 extends React.Component{
         console.log(res.length);
         for(let i=0;i<res.length;i++){
               arrayOfUsers.push(res[i].name);
-            
             }
-            
             this.setState({data : arrayOfUsers});
             resolve(arrayOfUsers);
-            
-      
-      }).catch(error => {
+         
+          }).catch(error => {
         console.log("error : ",error);
         reject(error);
           })
@@ -60,8 +50,6 @@ class Fetch2 extends React.Component{
 
     data2=()=>{
 
-                
-
       let url = localStorage.getItem('url');
       let array = [];
       return new Promise( (resolve, reject) => {
@@ -70,11 +58,10 @@ class Fetch2 extends React.Component{
         const api = FetchApi.callApi(`${url}/rest/api/3/search?jql=assignee=${this.state.data[i]}`);
       api.then(res => {
         console.log("response after data fetching : ",res);
-        let inProgressStoryPointCount=0;
+                let inProgressStoryPointCount=0;
                 let todoStoryPoint=0;
                 let doneStoryPoint=0;
                 let reviewStoryPoint=0;
-                //let openStoryPoint=0;
                 let acceptedStoryPoint=0;
                 let resolvedStoryPoint=0;
                 let inProgressSum=0;
@@ -95,7 +82,7 @@ class Fetch2 extends React.Component{
                         
                       }
                     
-                     if(res.issues[i].fields.status.name == "To Do"){
+                     if(res.issues[i].fields.status.name == "To Do" || res.issues[i].fields.status.name == "Open"){
                         todoStoryPoint = todoStoryPoint + res.issues[i].fields.customfield_10024;
             
                       }
@@ -121,11 +108,10 @@ class Fetch2 extends React.Component{
                 }
                 console.log(count);
 
-               
-                let obj ={
+               let obj ={
                     
                     assignee:res.issues[0].fields.assignee.name,
-                    todo:todoStoryPoint,
+                    open:todoStoryPoint,
                     accepted:acceptedStoryPoint,
                     in_Progress:inProgressStoryPointCount,
                     review:reviewStoryPoint,
@@ -133,15 +119,15 @@ class Fetch2 extends React.Component{
                     done:doneStoryPoint,
 
                     storyPoint:storyPoint
-                    
                 }
+
                 this.setState({actualData:[...this.state.actualData,obj]});
                          
                 if(this.state.data.length-1 == this.state.actualData.length-1){
                   for(let i=0;i<this.state.actualData.length;i++){
                     inProgressSum = inProgressSum + this.state.actualData[i].in_Progress;
                     acceptedSum = acceptedSum + this.state.actualData[i].accepted;
-                    todoSum = todoSum + this.state.actualData[i].todo;
+                    todoSum = todoSum + this.state.actualData[i].open;
                     reviewSum = reviewSum + this.state.actualData[i].review;
                     resolvedSum = resolvedSum + this.state.actualData[i].resolved;
                     doneSum = doneSum + this.state.actualData[i].done;
@@ -159,17 +145,14 @@ class Fetch2 extends React.Component{
                 this.setState({totalCount:obj2});
                 resolve(array);
             }
+
       }).catch(error => {
         console.log("error : ",error);
         reject(error);
           })
       }  
-    
-    
-        })
-      
-        
-    }
+    })
+  }
     
     lastTable=()=>{
         this.props.history.goBack();
@@ -196,12 +179,12 @@ class Fetch2 extends React.Component{
               {FetchTable.tableRow(this.state.actualData)}
           </tbody>
         {this.state.totalCount ? 
-          
+
           <tfoot>
             <tr>
               <th>Total</th>{FetchTable.tableFooter(this.state.totalCount)}
-              {this.progressBar()}
             </tr>
+        
           </tfoot>
         :null}   
        </table> 

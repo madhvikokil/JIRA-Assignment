@@ -1,4 +1,3 @@
-
 export default {
 
     callApi: (url) => {
@@ -9,7 +8,5 @@ export default {
     headers.append('Authorization', `Basic ${a}`);
      return fetch(url, { method: 'GET', headers: headers })
     .then(res => res.json())
-
-}
-
+    }
 }

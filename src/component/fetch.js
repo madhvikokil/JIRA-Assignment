@@ -23,8 +23,6 @@ class Fetch extends React.Component{
     const data2 = await this.data2();
     console.log("Data 2  => ",data2);
     console.log("updated array : ",this.state.actualData);
-    // const data3 = await this.tableData();
-    // console.log(data3);
   
     }
 
@@ -82,14 +80,16 @@ class Fetch extends React.Component{
             timeSpent = timeSpent + res.issues[i].fields.timespent;
             timeOriginalEstimate = timeOriginalEstimate + res.issues[i].fields.timeoriginalestimate;
         }
- 
+        let value = Math.floor(timeSpent/3600)
+        let value2 = Math.floor(timeOriginalEstimate/3600);
+        let value3 = Math.floor(timeEstimate/3600)
         let obj ={
             user:res.issues[0].fields.assignee.name,
             issue_count : res.total,
             story_Point:storyPoint,
-            Original_Estimate:timeOriginalEstimate/3600,
-            remaining_Estimate:timeEstimate/3600,
-            time_Spent:timeSpent/3600
+            Original_Estimate:value2,
+            remaining_Estimate:value3,
+            time_Spent:value
             
             
         }
@@ -113,6 +113,13 @@ class Fetch extends React.Component{
               spentSum : spentSum
           }
           this.setState({totalCount:obj2});
+          //console.log(...obj2);
+          localStorage.setItem('issuecount',JSON.stringify(obj2));
+          let s = JSON.parse(localStorage.getItem('issuecount'));
+          console.log("s : " ,s);
+         
+          console.log("get Item : ",s.issueCountSum);
+         
           resolve(array);
         }  
              
@@ -158,19 +165,22 @@ class Fetch extends React.Component{
           <thead class="thead-dark">
             <tr>
               {FetchTable.tableHeader(this.state.actualData)}
-              {this.progressBar()}
+              {/* {this.progressBar()} */}
             </tr>
           </thead>
+
           <tbody>
-              {FetchTable.tableRow(this.state.actualData)}
+              {FetchTable.tableRow(this.state.actualData,this.state.totalCount)}
           </tbody>
+          
           {this.state.totalCount ? 
           <tfoot>
-         <th>Total </th> {FetchTable.tableFooter(this.state.totalCount)}
-                         
-         
-      </tfoot> : null
+         <tr><th>Total </th> {FetchTable.tableFooter(this.state.totalCount,'table1')}</tr>     
+         <tr>{this.state.totalCount.storyPointSum} Issue Count </tr>
+      </tfoot>
+      : null
           }
+          
           
         </table><hr/> 
       <br/>
@@ -185,7 +195,7 @@ class Fetch extends React.Component{
   <br /><br />
   {posts}
   <Button onClick={this.anotherTable}> Next >> </Button>
-  {this.progressBar()}
+  {/* {this.progressBar()} */}
       
       </>
 

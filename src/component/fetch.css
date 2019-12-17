@@ -1,4 +1,4 @@
-.progress {
+/* .progress {
     display: flex;
     height: 1rem;
     overflow: hidden;
@@ -11,5 +11,5 @@
 
 .progress-bar{
     background-color: blue;
-    /* width:50% */
-}
+    width:50% */
+/* } */

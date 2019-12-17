@@ -182,8 +182,7 @@ class FetchData2 extends React.Component{
                 </tr>
                 
                 </table>
-                       
-        //console.log("arrayss : ",this.state.arrays);
+
         return(
             <><br/>
             <h3>Story Points by Assignee and Status</h3><br/>

@@ -1,0 +1,14 @@
+.progress {
+    width: 100px; 
+    display: inline-block; 
+    background-color: rgb(165, 155, 155);
+    height: 0.50rem;
+    border-radius: .25rem
+   
+
+}
+
+ .inside {
+    width: 100px; 
+    background-color: rgb(38, 76, 107);
+} 
