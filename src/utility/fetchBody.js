@@ -1,9 +1,11 @@
 import React from 'react';
 import ProgressBar from './progressBar';
+import './tableEdit.css';
+
 export default{
     RenderRow:(props)=>{
         return props.keys.map((key, index)=>{
-        return <td key={props.data[key]}><b>{props.data[key]}</b></td>
+        return <td class="editRow " key={props.data[key]}>{props.data[key]}</td>
         })
        },
 
@@ -14,7 +16,7 @@ export default{
     RenderProgressRow:(props) =>{
         return props.keys.map((key, index)=>{
             if(typeof props.data[key] == 'string'){
-                return <td key={props.data[key]}><b>{props.data[key]}</b></td>
+                return <td  key={props.data[key]}>{props.data[key]}</td>
             }
             if(typeof props.data[key] != 'string'){
                 if(key == 'issue_count') {
@@ -30,19 +32,19 @@ export default{
                         return  <ProgressBar.displayProgressBar aValue={props.data[key]} bar={bar}/>
                     }
 
-                    if(key == 'Original_Estimate') {
+                    if(key == 'Original_Estimate_in_days') {
                         let bar = props.data[key] * 100 / props.item.originalSum;
                         bar = Math.floor(bar)
                         return  <ProgressBar.displayProgressBar aValue={props.data[key]} bar={bar}/>
                     }
 
-                    if(key == 'remaining_Estimate') {
+                    if(key == 'remaining_Estimate_in_days') {
                         let bar = props.data[key] * 100 / props.item.remainingSum;
                         bar = Math.floor(bar)
                         return  <ProgressBar.displayProgressBar aValue={props.data[key]} bar={bar}/>
                     }
                     
-                    if(key == 'time_Spent') {
+                    if(key == 'time_Spent_in_days') {
                         let bar = props.data[key] * 100 / props.item.spentSum;
                         bar = Math.floor(bar)
                         return  <ProgressBar.displayProgressBar aValue={props.data[key]} bar={bar}/>
@@ -59,13 +61,3 @@ export default{
 
            }
     }
-
-{/* <td key={key}><b>{key}</b>
-                <div class="progress">
-                    <div class="inside"><span style={{display:'inline', width:30+'px' }}></span></div>                  
-                </div><b>100%</b>
-                   
-        </td> */}
-
-
-{/* <th key={key}>{key.toUpperCase()}</th> */}

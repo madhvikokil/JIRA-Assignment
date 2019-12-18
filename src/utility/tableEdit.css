@@ -1,0 +1,34 @@
+.editRow {
+    color:#0052CC;
+ 
+}
+
+.specificRowBackground{
+    background-color: rgb(244,245,247);
+    border-bottom: 1px solid lightgrey;
+}
+
+.headerStyle{
+    color:#7a869a;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.tableHeader{
+    background-color: #0747a6;
+    color:white;
+    text-align: left;
+    padding:8px;
+    margin:0px;
+    font-size:12px;
+    font-weight: bold;
+    padding: 4px 64px 4px 10p
+}
+
+.headerBox{
+    color:#42526e;
+    padding:2px 5px;
+    margin:-0.5px 0px;
+    background-color: #dfe1e5;
+    font-size:11px
+}

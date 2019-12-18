@@ -2,10 +2,10 @@ import React from 'react';
 
 export default{
     displayProgressBar: (props) => {
-        return (<td key={props.aValue}><b>{props.aValue}</b>&nbsp;&nbsp;
+        return (<td key={props.aValue}>{props.aValue}&nbsp;&nbsp;
               <div class="progress">
                      <div class="inside" style={{width:`${props.bar}`+'px'}}>_</div>  &nbsp;&nbsp;                
-                      </div>&nbsp;&nbsp;<b>{props.bar+'%'}</b>
+                      </div>&nbsp;&nbsp;{props.bar+'%'}
                     </td>)
 
 

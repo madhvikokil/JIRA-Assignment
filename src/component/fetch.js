@@ -2,7 +2,8 @@ import React from 'react';
 import FetchApi from '../utility/fetchApi';
 import FetchTable from '../utility/tableData';
 import { Link } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
+import { Button ,button} from 'semantic-ui-react';
+import '../utility/tableEdit.css';
 import './fetch.css';
 
 
@@ -105,9 +106,9 @@ class Fetch extends React.Component{
             user:res.issues[0].fields.assignee.name,
             issue_count : finalCount,
             story_Point:storyPoint,
-            Original_Estimate:value2,
-            remaining_Estimate:value3,
-            time_Spent:value
+            Original_Estimate_in_days:value2,
+            remaining_Estimate_in_days:value3,
+            time_Spent_in_days:value
             
             
         }
@@ -119,9 +120,9 @@ class Fetch extends React.Component{
           for(let i=0;i<this.state.actualData.length;i++){
             issueCountSum = issueCountSum + this.state.actualData[i].issue_count;
              storyPointSum = storyPointSum + this.state.actualData[i].story_Point;
-            originalSum = originalSum + this.state.actualData[i].Original_Estimate;
-            remainingSum = remainingSum + this.state.actualData[i].remaining_Estimate;
-            spentSum = spentSum + this.state.actualData[i].time_Spent;
+            originalSum = originalSum + this.state.actualData[i].Original_Estimate_in_days;
+            remainingSum = remainingSum + this.state.actualData[i].remaining_Estimate_in_days;
+            spentSum = spentSum + this.state.actualData[i].time_Spent_in_days;
           }
           let obj2 = {
               issueCountSum : issueCountSum,
@@ -131,6 +132,7 @@ class Fetch extends React.Component{
               spentSum : spentSum
           }
           this.setState({totalCount:obj2});
+          localStorage.setItem('total',this.state.totalCount.issueCountSum);
           //console.log(...obj2);
           localStorage.setItem('issuecount',JSON.stringify(obj2));
           let s = JSON.parse(localStorage.getItem('issuecount'));
@@ -166,10 +168,11 @@ class Fetch extends React.Component{
     debugger;
     let posts ;
     if(this.state.actualData.length > 0) {
-      posts =   <>
+      posts =   <> <br/><p class="tableHeader">Release Multiple Output Statistics</p>
         <table class="table">
-          <thead class="thead-dark">
-            <tr>
+          <thead class="headerStyle">
+           
+            <tr >
               {FetchTable.tableHeader(this.state.actualData)}
               {/* {this.progressBar()} */}
             </tr>
@@ -180,15 +183,16 @@ class Fetch extends React.Component{
           </tbody>
           
           {this.state.totalCount ? 
-          <tfoot>
-         <tr><th>Total </th> {FetchTable.tableFooter(this.state.totalCount,'table1')}</tr>     
-         <tr><b>{this.state.totalCount.issueCountSum} Issue Count </b></tr>
+          <tfoot >
+            <tr class="specificRowBackground">
+              <td class="editRow"><b>Total:</b> </td> {FetchTable.tableFooter(this.state.totalCount,'table1')}
+            </tr>
+             
+         <tr class="editRow" >{this.state.totalCount.issueCountSum} Issue Count </tr>
          
       </tfoot>
       : null
           }
-          
-          
         </table><hr/> 
       <br/>
       
@@ -197,9 +201,7 @@ class Fetch extends React.Component{
   
   return(
       <><br />
-  <h1>Release Multiple Output Statistics</h1>
-  <Button class="ui right floated  button"  as={Link} to ='/logout'>Log out</Button>
-  <br /><br />
+  <Button class="ui button"  style={{float:'right'}} as={Link} to ='/logout'>Log out</Button><br /><br />
   {posts}
   <Button onClick={this.anotherTable}> Next >> </Button>
   {/* {this.progressBar()} */}

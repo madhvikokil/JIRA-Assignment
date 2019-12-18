@@ -3,6 +3,8 @@ import FetchApi from '../utility/fetchApi';
 import FetchTable from '../utility/tableData';
 import { Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import '../utility/tableEdit.css';
+
 
 class Fetch2 extends React.Component{
 
@@ -181,9 +183,10 @@ class Fetch2 extends React.Component{
     debugger;
     let posts ;
     if(this.state.actualData.length > 0) {
-      posts =   <>
+      posts =   <><br/>
+      <p class="tableHeader">Story Points by Assignee and Status</p>
         <table class="table">
-          <thead class="thead-dark">
+          <thead class="headerStyle">
             <tr>
               {FetchTable.tableHeader(this.state.actualData)}
             </tr>
@@ -195,21 +198,20 @@ class Fetch2 extends React.Component{
         {this.state.totalCount ? 
 
           <tfoot>
-            <tr>
-              <th>Total</th>{FetchTable.tableFooter(this.state.totalCount)}
+            <tr class="specificRowBackground">
+              <td class="editRow "><b>Total:</b> </td>{FetchTable.tableFooter(this.state.totalCount)}
             </tr>
-        
+          <tr class="editRow  ">{localStorage.getItem('total')} Issue Count</tr>
           </tfoot>
         :null}   
-       </table> 
+       </table> <hr/>
         <br/>
         </>
     }
   
   return(
       <><br />
-  <h1>Story Points by Assignee and Status</h1>
-  <Button class="ui button"  as={Link} to ='/logout'>Log out</Button>  <br /><br />
+  <Button class="ui button"  style={{float:'right'}} as={Link} to ='/logout'>Log out</Button>  <br /><br />
   {posts}
   <Button onClick={this.lastTable}>  Previous  </Button>
 

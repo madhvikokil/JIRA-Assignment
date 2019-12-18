@@ -1,12 +1,14 @@
 import React from 'react';
 import FetchBody from './fetchBody';
 import './tableData.css';
+import './tableEdit.css';
 export default {
 
     tableHeader: (props) => {
         let o = Object.keys(props[0]);
         return o.map((key)=>{
-                return <th key={key}>{key.toUpperCase()}</th>
+            // if(key == "open" || key == "accepted" || key == "in_progress" || key == "review" || key =="resolved" || key =="done" ||key =="storyPoint")
+        return <th key={key}>{key.toUpperCase()}</th>
                 })
     },
     
@@ -17,7 +19,7 @@ export default {
         let keys = Object.keys(props[0]);
         if(item2){
             return items.map((row, index)=>{
-            return <tr key={index}><FetchBody.RenderProgressRow key={index} data={row} keys={keys} item={item2}/></tr>
+            return <tr class="editRow" key={index}><FetchBody.RenderProgressRow key={index} data={row} keys={keys} item={item2}/></tr>
             })
         }
         return items.map((row, index)=>{
@@ -30,7 +32,7 @@ export default {
         let o = Object.values(props)
         if(p){
          return o.map((key)=>(
-         <td key={key}><b>{key}</b>&nbsp;
+         <td class="editRow" key={key}><b>{key}</b>&nbsp;
                 <div class="progress">
                 <div class="inside" style={{width:100+'px'}}>_</div>&nbsp;
                 </div><b>100%</b>
@@ -39,7 +41,7 @@ export default {
 
         else{
             return o.map((key)=>(
-            <td key={key}><b>{key}</b></td>))
+            <td class="editRow" key={key}><b>{key}</b></td>))
         }
     }
  }
