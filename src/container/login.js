@@ -28,7 +28,7 @@ class Login extends React.Component{
                 console.log("response : ",res.body);
                 console.log("Table routing");
                 alert("Successfully Logged...");
-                this.props.history.push('/tableSheet/table1');
+                this.props.history.push('/tableSheet');
       
             })
         // FetchApi.callApi(`${this.state.url}/rest/api/2/user/assignable/search?project=REAC`)

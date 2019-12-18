@@ -9,6 +9,7 @@ import Fetch from './component/fetch';
 import Fetch2 from './component/fetch2';
 //const RMOS = lazy(() => import('./container/table-one'));
 import RMOS from './container/table-one';
+import Projects from './component/projects';
 
 // import FetchData from './component/practice';
 
@@ -16,6 +17,7 @@ import RMOS from './container/table-one';
 function App() {
   let routes =(
     <Switch>
+      <Route path="/tablesheet" exact component={Projects} />
       <Route path="/tableSheet/table1" exact component={Fetch} />
       <Route path="/tableSheet/table2" component={Fetch2} />
       <Route path="/logout"  component={Logout} /> 

@@ -27,11 +27,12 @@ class Fetch2 extends React.Component{
     }
 
     data =() =>{
+      let project = localStorage.getItem('project');
      return new Promise( (resolve, reject) => {
       let url = localStorage.getItem('url');
       let arrayOfUsers = [];
       
-      FetchApi.callApi(`${url}/rest/api/2/user/assignable/search?project=REAC`).then(res => {
+      FetchApi.callApi(`${url}/rest/api/2/user/assignable/search?project=${project}`).then(res => {
         console.log("response : ",res);
         console.log(res.length);
         for(let i=0;i<res.length;i++){
@@ -49,7 +50,7 @@ class Fetch2 extends React.Component{
     }
 
     data2=()=>{
-
+      let project = localStorage.getItem('project');
       let url = localStorage.getItem('url');
       let array = [];
       return new Promise( (resolve, reject) => {
@@ -71,11 +72,19 @@ class Fetch2 extends React.Component{
                 let resolvedSum = 0;
                 let doneSum = 0;
                 let storyPointSum = 0;
-
+                let anotherArray = [];
                 let storyPoint=0;
+                let finalCount=0;
                 let count = res.total;
                 for(let i =0;i<count ;i++){
-                  storyPoint =storyPoint +  res.issues[i].fields.customfield_10024;
+                  if(res.issues[i].fields.project.key ==  `${[project]}`){
+                    console.log("name of the user' : ",res.issues[i].fields.assignee.name);
+                    anotherArray.push(res.issues[i].fields.assignee.name);
+                    console.log(anotherArray);
+                    
+                    console.log("length : ",anotherArray.length);
+
+                    storyPoint =storyPoint +  res.issues[i].fields.customfield_10024;
                   
                     if(res.issues[i].fields.status.name == "In Progress"){
                         inProgressStoryPointCount = inProgressStoryPointCount + res.issues[i].fields.customfield_10024;
@@ -105,11 +114,15 @@ class Fetch2 extends React.Component{
                         resolvedStoryPoint = resolvedStoryPoint + res.issues[i].fields.customfield_10024;
                       }
 
+                  }
+                  finalCount = anotherArray.length;
+
+                  
                 }
                 console.log(count);
 
                let obj ={
-                    
+                    //issue_count : finalCount,
                     assignee:res.issues[0].fields.assignee.name,
                     open:todoStoryPoint,
                     accepted:acceptedStoryPoint,
@@ -121,6 +134,7 @@ class Fetch2 extends React.Component{
                     storyPoint:storyPoint
                 }
 
+                let issueLength ={}
                 this.setState({actualData:[...this.state.actualData,obj]});
                          
                 if(this.state.data.length-1 == this.state.actualData.length-1){

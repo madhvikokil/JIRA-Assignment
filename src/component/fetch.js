@@ -7,17 +7,18 @@ import './fetch.css';
 
 
 class Fetch extends React.Component{
-
+  
   state={
         data:[],
         actualData:[],
         length:'',
         total:[]
   }
+  
 
  
      componentDidMount =async()=>{ 
-
+      
     const data1 = await this.data();
     console.log("DATA 1 ===>>>", data1);
     const data2 = await this.data2();
@@ -31,11 +32,12 @@ class Fetch extends React.Component{
     }
 
     data =() =>{
+      let project = localStorage.getItem('project');
      return new Promise( (resolve, reject) => {
       let url = localStorage.getItem('url');
       let arrayOfUsers = [];
       
-      FetchApi.callApi(`${url}/rest/api/2/user/assignable/search?project=REAC`).then(res => {
+      FetchApi.callApi(`${url}/rest/api/2/user/assignable/search?project=${project}`).then(res => {
         console.log("response : ",res);
         console.log(res.length);
         for(let i=0;i<res.length;i++){
@@ -56,6 +58,7 @@ class Fetch extends React.Component{
     }
 
     data2=()=>{
+      let project = localStorage.getItem('project');
       let url = localStorage.getItem('url');
       let array = [];
       return new Promise( (resolve, reject) => {
@@ -74,18 +77,33 @@ class Fetch extends React.Component{
         let originalSum = 0;
         let remainingSum = 0;
         let spentSum = 0;
+        let anotherArray=[];
+        let finalCount=0;
         for(let i =0;i<count ;i++){
+          
+           if(res.issues[i].fields.project.key ==  `${[project]}`){
             storyPoint =storyPoint +  res.issues[i].fields.customfield_10024;
             timeEstimate = timeEstimate + res.issues[i].fields.timeestimate;
             timeSpent = timeSpent + res.issues[i].fields.timespent;
             timeOriginalEstimate = timeOriginalEstimate + res.issues[i].fields.timeoriginalestimate;
+            // console.log("isues of a project : ",res.issues[i].fields.project.key);
+             console.log("name of the user' : ",res.issues[i].fields.assignee.name);
+             anotherArray.push(res.issues[i].fields.assignee.name);
+             console.log(anotherArray);
+             
+             console.log("length : ",anotherArray.length);
+             
+           }
+           finalCount = anotherArray.length;
+           
         }
+        
         let value = Math.floor(timeSpent/3600)
         let value2 = Math.floor(timeOriginalEstimate/3600);
         let value3 = Math.floor(timeEstimate/3600)
         let obj ={
             user:res.issues[0].fields.assignee.name,
-            issue_count : res.total,
+            issue_count : finalCount,
             story_Point:storyPoint,
             Original_Estimate:value2,
             remaining_Estimate:value3,
@@ -143,19 +161,7 @@ class Fetch extends React.Component{
     console.log("logout");
   }
 
-  progressBar=() => {
-    console.log("progress bar")
-    let issueCountTotal = 100;
-    let refValue = 60;
-    let di = refValue * 100 / issueCountTotal;
-    let a = di + '%';
-    console.log(di+'%');
-    return(<>
-      <div class="progress" width="100">
-          <span class="progress-bar" style={{width:a}}>{a}</span>
-      </div></>
-    )
-  }
+
   render(){
     debugger;
     let posts ;
@@ -176,7 +182,8 @@ class Fetch extends React.Component{
           {this.state.totalCount ? 
           <tfoot>
          <tr><th>Total </th> {FetchTable.tableFooter(this.state.totalCount,'table1')}</tr>     
-         <tr>{this.state.totalCount.storyPointSum} Issue Count </tr>
+         <tr><b>{this.state.totalCount.issueCountSum} Issue Count </b></tr>
+         
       </tfoot>
       : null
           }
