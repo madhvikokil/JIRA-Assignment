@@ -124,7 +124,7 @@ class Fetch2 extends React.Component{
                 console.log(count);
 
                let obj ={
-                    //issue_count : finalCount,
+                   
                     assignee:res.issues[0].fields.assignee.name,
                     open:todoStoryPoint,
                     accepted:acceptedStoryPoint,
@@ -201,7 +201,7 @@ class Fetch2 extends React.Component{
             <tr class="specificRowBackground">
               <td class="editRow "><b>Total:</b> </td>{FetchTable.tableFooter(this.state.totalCount)}
             </tr>
-          <tr class="editRow  ">{localStorage.getItem('total')} Issue Count</tr>
+          <tr class="editRow  ">{localStorage.getItem('total')} total issues</tr>
           </tfoot>
         :null}   
        </table> <hr/>
@@ -211,10 +211,10 @@ class Fetch2 extends React.Component{
   
   return(
       <><br />
-  <Button class="ui button"  style={{float:'right'}} as={Link} to ='/logout'>Log out</Button>  <br /><br />
-  {posts}
-  <Button onClick={this.lastTable}>  Previous  </Button>
-
+      <Button class="ui button"  style={{float:'left'}} as={Link} to ='/tablesheet'>Project List</Button>
+      <Button class="ui button"  style={{float:'right'}} as={Link} to ='/logout'>Log out</Button>  <br /><br />
+      {posts}
+      <Button onClick={this.lastTable}>  Previous  </Button>
       </>
 
     )

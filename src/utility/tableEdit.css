@@ -20,15 +20,23 @@
     text-align: left;
     padding:8px;
     margin:0px;
-    font-size:12px;
+    font-size:15px;
     font-weight: bold;
-    padding: 4px 64px 4px 10p
+    padding: 10px 64px 10px 10px
 }
 
 .headerBox{
-    color:#42526e;
-    padding:2px 5px;
-    margin:-0.5px 0px;
+   
+    border-radius: 3px;
+    color: #42526E;
+    display: inline-block;
+    font-weight: 900;
+    line-height: 10%;
+    margin: 0;
+    padding: 2px 5px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
     background-color: #dfe1e5;
-    font-size:11px
 }
+

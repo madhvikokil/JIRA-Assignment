@@ -2,10 +2,9 @@ import React from 'react';
 import FetchApi from '../utility/fetchApi';
 import FetchTable from '../utility/tableData';
 import { Link } from 'react-router-dom';
-import { Button ,button} from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import '../utility/tableEdit.css';
 import './fetch.css';
-
 
 class Fetch extends React.Component{
   
@@ -13,12 +12,10 @@ class Fetch extends React.Component{
         data:[],
         actualData:[],
         length:'',
-        total:[]
+        totalCount:[]
   }
   
-
- 
-     componentDidMount =async()=>{ 
+  componentDidMount =async()=>{ 
       
     const data1 = await this.data();
     console.log("DATA 1 ===>>>", data1);
@@ -43,19 +40,16 @@ class Fetch extends React.Component{
         console.log(res.length);
         for(let i=0;i<res.length;i++){
               arrayOfUsers.push(res[i].name);
+        }
             
-            }
+          this.setState({data : arrayOfUsers});
+          resolve(arrayOfUsers);
             
-            this.setState({data : arrayOfUsers});
-            resolve(arrayOfUsers);
-            
-      
       }).catch(error => {
         console.log("error : ",error);
         reject(error);
           })
-
-     } )
+      })
     }
 
     data2=()=>{
@@ -87,16 +81,12 @@ class Fetch extends React.Component{
             timeEstimate = timeEstimate + res.issues[i].fields.timeestimate;
             timeSpent = timeSpent + res.issues[i].fields.timespent;
             timeOriginalEstimate = timeOriginalEstimate + res.issues[i].fields.timeoriginalestimate;
-            // console.log("isues of a project : ",res.issues[i].fields.project.key);
-             console.log("name of the user' : ",res.issues[i].fields.assignee.name);
-             anotherArray.push(res.issues[i].fields.assignee.name);
-             console.log(anotherArray);
-             
-             console.log("length : ",anotherArray.length);
-             
+            console.log("name of the user' : ",res.issues[i].fields.assignee.name);
+            anotherArray.push(res.issues[i].fields.assignee.name);
+            console.log(anotherArray);
+            console.log("length : ",anotherArray.length);
            }
            finalCount = anotherArray.length;
-           
         }
         
         let value = Math.floor(timeSpent/3600)
@@ -109,9 +99,7 @@ class Fetch extends React.Component{
             Original_Estimate_in_days:value2,
             remaining_Estimate_in_days:value3,
             time_Spent_in_days:value
-            
-            
-        }
+          }
        
         console.log("pushed array : ",array);
         this.setState({actualData:[...this.state.actualData,obj]});
@@ -124,6 +112,7 @@ class Fetch extends React.Component{
             remainingSum = remainingSum + this.state.actualData[i].remaining_Estimate_in_days;
             spentSum = spentSum + this.state.actualData[i].time_Spent_in_days;
           }
+
           let obj2 = {
               issueCountSum : issueCountSum,
               storyPointSum : storyPointSum,
@@ -131,9 +120,9 @@ class Fetch extends React.Component{
               remainingSum : remainingSum,
               spentSum : spentSum
           }
+
           this.setState({totalCount:obj2});
           localStorage.setItem('total',this.state.totalCount.issueCountSum);
-          //console.log(...obj2);
           localStorage.setItem('issuecount',JSON.stringify(obj2));
           let s = JSON.parse(localStorage.getItem('issuecount'));
           console.log("s : " ,s);
@@ -148,20 +137,17 @@ class Fetch extends React.Component{
         reject(error);
           })
       }  
-        })
-      
-
+    })
     }
 
     anotherTable=()=>{
       console.log("Next Table");
       this.props.history.push("/tableSheet/table2");
     }
-       
-  
-  logoutHandler=() =>{
+     
+    logoutHandler=() =>{
     console.log("logout");
-  }
+    }
 
 
   render(){
@@ -174,7 +160,6 @@ class Fetch extends React.Component{
            
             <tr >
               {FetchTable.tableHeader(this.state.actualData)}
-              {/* {this.progressBar()} */}
             </tr>
           </thead>
 
@@ -188,23 +173,22 @@ class Fetch extends React.Component{
               <td class="editRow"><b>Total:</b> </td> {FetchTable.tableFooter(this.state.totalCount,'table1')}
             </tr>
              
-         <tr class="editRow" >{this.state.totalCount.issueCountSum} Issue Count </tr>
+         <tr class="editRow" >{this.state.totalCount.issueCountSum} total issues </tr>
          
       </tfoot>
-      : null
-          }
-        </table><hr/> 
-      <br/>
+      : null}
+        </table>
+        <hr/><br/>
       
         </>
     }
   
   return(
       <><br />
-  <Button class="ui button"  style={{float:'right'}} as={Link} to ='/logout'>Log out</Button><br /><br />
-  {posts}
-  <Button onClick={this.anotherTable}> Next >> </Button>
-  {/* {this.progressBar()} */}
+      <Button class="ui button"  style={{float:'left'}} as={Link} to ='/tablesheet'>Project List</Button>
+      <Button class="ui button"  style={{float:'right'}} as={Link} to ='/logout'>Log out</Button><br /><br />
+      {posts}
+      <Button onClick={this.anotherTable}> Next >> </Button>
       
       </>
 
