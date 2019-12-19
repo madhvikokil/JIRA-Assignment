@@ -2,17 +2,11 @@ import React from 'react';
 import './App.css';
 import {lazy,Suspense}from 'react';
 import {Route,Switch} from 'react-router-dom';
-import SPAS from './container/table-two';
-import Login from './container/login';
 import Logout from './component/logout';
-import Fetch from './component/fetch';
-import Fetch2 from './component/fetch2';
-//const RMOS = lazy(() => import('./container/table-one'));
-import RMOS from './container/table-one';
-import Projects from './component/projects';
-
-// import FetchData from './component/practice';
-
+const Login = lazy(() => import('./container/login'));
+const Fetch = lazy(() => import('./container/fetch'));
+const Fetch2 = lazy(() => import('./container/fetch2'));
+const Projects = lazy(() => import('./component/projects'));
 
 function App() {
   let routes =(
@@ -22,9 +16,6 @@ function App() {
       <Route path="/tableSheet/table2" component={Fetch2} />
       <Route path="/logout"  component={Logout} /> 
       <Route path="/" exact component={Login} />
-   {/* <Route path="/tableSheet" component={RMOS } />
-   
-    {/* <Route path="/tableSheet" component={SPAS} /> */}
   </Switch>
   )
   return (

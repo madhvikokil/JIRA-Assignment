@@ -1,7 +1,7 @@
 .progress {
     width: 100px; 
     display: inline-block; 
-    background-color: rgb(165, 155, 155);
+    background-color: rgba(9,30,66,0.13);
     height: 0.50rem;
     border-radius: .25rem
    
@@ -12,3 +12,12 @@
     width: 100px; 
     background-color: rgb(38, 76, 107);
 } 
+
+/* background-color: #0747a6;
+color: white;
+text-align: left;
+padding: 8px;
+margin: 0px;
+font-size: 15px;
+font-weight: bold;
+padding: 10px 64px 10px 10px */

@@ -2,6 +2,26 @@
     color:#0052CC;
  
 }
+hr{
+
+    
+    margin-top: 0;
+    margin-bottom: 0;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1)
+}
+.table{
+    margin-bottom: 0;
+}
+.editRows {
+    
+    color: 0052CC;
+    /* text-align: left; */
+    padding: 8px;
+    margin: 0px;
+    font-size: 15px;
+    padding: 10px 64px 10px 10px;
+}
 
 .specificRowBackground{
     background-color: rgb(244,245,247);
@@ -21,8 +41,8 @@
     padding:8px;
     margin:0px;
     font-size:15px;
-    font-weight: bold;
-    padding: 10px 64px 10px 10px
+       font-weight: bold;
+    padding: 9px 87px 10px 53px;
 }
 
 .headerBox{

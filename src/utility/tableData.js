@@ -25,10 +25,18 @@ export default {
         let o = Object.keys(props[0]);
         return o.map((key,index)=>{
              if(key == "open" || key == "accepted" || key == "in_Progress" || key == "review" || key =="resolved" || key =="done" ){
-                key.replace(/_/g, ' ');
-                return <th key={key} ><td class="headerBox" style={{color:`${headerLabelColor[index]}`,backgroundColor:`${headerLabelBackgroundColor[index]}`}}>{key.toUpperCase()}</td></th>
+                let ReplacedKey = key.replace(/_/g, ' ');
+                return <th key={key} ><td class="headerBox" style={{color:`${headerLabelColor[index]}`,backgroundColor:`${headerLabelBackgroundColor[index]}`}}>{ReplacedKey.toUpperCase()}</td></th>
              }
-        return <th key={key}>{key.toUpperCase()}</th>
+             if(key == "story_point"){
+                let ReplacedKey = key.replace(/_/g, ' ');
+                return <th key={key} style={{color:'#0747a6',backgroundColor:'rgb(244,245,247)',fontWeight:'800'}}>{ReplacedKey.toUpperCase()}</th>
+             }
+             else{
+                let ReplacedKey = key.replace(/_/g, ' ');
+                return <th key={key}>{ReplacedKey.toUpperCase()}</th>
+             }
+        
                 })
     },
     
@@ -43,7 +51,7 @@ export default {
             })
         }
         return items.map((row, index)=>{
-        return <tr key={index}><FetchBody.RenderRow key={index} data={row} keys={keys} /></tr>
+        return <tr key={index} ><FetchBody.RenderRow key={index} data={row} keys={keys} /></tr>
         })
     },
 
@@ -59,7 +67,7 @@ export default {
         let a = Object.keys(props);
         console.log("footer :",props);
         if(p){
-            let color;
+           
          return o.map((key,index)=>(
                    
          <td class="editRow" key={key}><b>{key}</b>&nbsp;
