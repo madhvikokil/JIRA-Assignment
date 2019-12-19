@@ -5,7 +5,7 @@ import './tableEdit.css';
 export default{
     RenderRow:(props)=>{
         return props.keys.map((key, index)=>{
-        return <td class="editRow" style={{backgroundColor:index == '7' ? 'rgb(244,245,247)' : null},{fontWeight:index == '7' ? '800' : null}} key={props.data[key]}>{props.data[key]}</td>
+        return <td class="editRow" style={{backgroundColor:index == '7' ? 'rgb(244,245,247)' : null,fontWeight:index == '7' ? '800' : null}} key={props.data[key]}>{props.data[key]}</td>
         })
        },
 
