@@ -4,6 +4,8 @@ import FetchTable from '../utility/tableData';
 import { Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import '../utility/tableEdit.css';
+import { local } from 'd3';
+import Chart from '../component/chart';
 
 
 class Fetch2 extends React.Component{
@@ -159,6 +161,8 @@ class Fetch2 extends React.Component{
                     storyPointSum:storyPointSum
                   }
                 this.setState({totalCount:obj2});
+                console.log("total count : ",this.state.totalCount);
+                localStorage.setItem('sum',JSON.stringify(obj2));
                 resolve(array);
             }
 
@@ -180,7 +184,7 @@ class Fetch2 extends React.Component{
    
    
   render(){
-    debugger;
+    //debugger;
     let posts ;
     if(this.state.actualData.length > 0) {
       posts =   <><br/>
@@ -202,6 +206,7 @@ class Fetch2 extends React.Component{
               <td class="editRow "><b>Total:</b> </td>{FetchTable.tableFooter(this.state.totalCount)}
             </tr>
           <tr class="editRow  "><td>{localStorage.getItem('total')} total issues</td></tr>
+          {/* <Chart count ={this.state.totalCount} /> */}
           </tfoot>
         :null}   
        </table><hr/>
@@ -215,6 +220,21 @@ class Fetch2 extends React.Component{
       <Button class="ui button"  style={{float:'right'}} as={Link} to ='/logout'>Log out</Button>  <br /><br />
       {posts}
       <Button onClick={this.lastTable}>  Previous  </Button>
+      {this.state.totalCount.todoSum  ? 
+       <Chart
+      //  {...this.state.totalCount}
+       data={this.state.totalCount}
+      //  count={this.state.totalCount.todoSum}
+      //         count2={this.state.totalCount.acceptedSum}
+      //         count3={this.state.totalCount.inProgressSum}
+      //         count4={this.state.totalCount.reviewSum}
+      //         count5={this.state.totalCount.resolvedSum}
+      //         count6={this.state.totalCount.doneSum}
+        />  :null
+      }
+
+      
+      
       </>
 
     )
