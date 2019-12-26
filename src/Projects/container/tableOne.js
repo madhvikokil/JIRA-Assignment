@@ -101,7 +101,7 @@ class Fetch extends React.Component{
             storyPointSum = storyPointSum + this.state.actualData[i].story_Point;
             originalSum = originalSum + this.state.actualData[i].Original_Estimate_in_hour;
             remainingSum = remainingSum + this.state.actualData[i].remaining_Estimate_in_hour;
-            spentSum = spentSum + this.state.actualData[i].time_Spent_in_hour;
+            spentSum = spentSum + this.state.actualData[i].time_Spent_in_days;
           }
 
           let obj2 = {
