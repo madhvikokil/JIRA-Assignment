@@ -6,10 +6,12 @@ const InputHere =(props) => {
     return(<>
     
     <Form.Input type="text" 
-             fluid icon='user'
              iconPosition='left' 
-             placeholder='E-mail address' 
              class="required"
+             placeholder={props && props.placeholder}
+             value={props && props.value}
+             onChange={props && props.onChange}
+             icon={props && props.icon}
             ></Form.Input></> )
 }
 

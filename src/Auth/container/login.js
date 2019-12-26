@@ -4,6 +4,7 @@ import 'semantic-ui-css/semantic.min.css';
 import superagent from 'superagent';
 import '../../Assets/loginError.css';
 import FormElements from '../../utility/formElements'
+import { withRouter } from 'react-router-dom';
 
 class Login extends React.Component{
 
@@ -15,7 +16,7 @@ class Login extends React.Component{
     }
     state ={
         email:'',
-        password:'',
+        token:'',
         url:'',
         errDiv:''
     }
@@ -35,9 +36,9 @@ class Login extends React.Component{
             errorMessage += " Email";
         }
        
-        if(this.state.password === ""){
+        if(this.state.token === ""){
             flag = true;
-            errorMessage += " Password";
+            errorMessage += " Token";
         }
 
         if(this.state.url === ""){
@@ -50,11 +51,11 @@ class Login extends React.Component{
         
 
         else{
-            let a = window.btoa(`${this.state.email}:${this.state.password}`);
+            let a = window.btoa(`${this.state.email}:${this.state.token}`);
             console.log(a);
             localStorage.setItem('token',a);
             superagent
-                .get(`${this.state.url}/rest/api/2/user/assignable/search?project=REAC`)
+                .get(`${this.state.url}/rest/api/3/project`)
                 .set('Access-Control-Allow-Credentials', '*')
                 .set('Accept', 'application/json')
                 .set('Authorization', `Basic ${a}`)
@@ -64,7 +65,7 @@ class Login extends React.Component{
                     console.log("response : ",res.body);
                     console.log("Table routing");
                     alert("Successfully Logged...");
-                    this.props.history.push('/tableSheet');
+                    this.props.history.push('/tablesheet');
           
                 })
         }
@@ -88,8 +89,8 @@ class Login extends React.Component{
         this.setState({email : event.target.value})
     }
 
-    changePassword = (event) => {
-        this.setState({password : event.target.value})
+    changeToken = (event) => {
+        this.setState({token : event.target.value})
     }
 
     changeUrl = (event) => {
@@ -97,7 +98,31 @@ class Login extends React.Component{
     }
 
     render(){
-        console.log("props : ",this.props);
+        console.log("props : ",this.props)
+         let emailInput ={
+           placeholder:"E-mail address",
+           value:this.state.email,
+           onChange:this.changeEmail,
+           icon:"user",
+           type:"email"
+       }
+
+       let tokenInput ={
+        placeholder:"Token",
+        value:this.state.token,
+        onChange:this.changeToken,
+        icon:"lock",
+        type:"text"
+       }
+
+       let urlInput ={
+        placeholder:"Url",
+        value:this.state.url,
+        onChange:this.changeUrl,
+        icon:"lock",
+        tyoe:"text"
+       }
+        
         return(<>
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
@@ -107,37 +132,11 @@ class Login extends React.Component{
                
                     <Form size='large'>
                         <Segment stacked>
-                    <Form.Input 
-                    fluid icon='user'
-                     iconPosition='left' 
-                     placeholder='E-mail address' 
-                     class="required"
-                     value={this.state.email}
-                     onChange={this.changeEmail}
-                     />
-
-                    <Form.Input
-                    fluid
-                    icon='lock'
-                    iconPosition='left'
-                    placeholder='Token'
-                    type='token'
-                    value={this.state.password}
-                    class="required"
                     
-                    onChange={this.changePassword}
-                    />
+                    {this.props.inputhere(emailInput)}
+                    {this.props.inputhere(tokenInput)}
+                    {this.props.inputhere(urlInput)}
 
-                    <Form.Input
-                    fluid
-                    icon='lock'
-                    iconPosition='left'
-                    placeholder='URL'
-                    type='url'
-                    value={this.state.url}
-                    class="required"
-                    onChange={this.changeUrl}
-                    />
                     <Button color='teal' fluid size='large' onClick={this.listOfProjects}>
                         Login
                     </Button>
@@ -153,4 +152,4 @@ class Login extends React.Component{
     }
 }
 
-export default Login;
+export default FormElements(withRouter(Login));

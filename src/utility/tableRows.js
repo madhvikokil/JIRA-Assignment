@@ -6,7 +6,7 @@ import '../Assets/tableEdit.css';
 export default{
     RenderRow:(props) => {
         return props.keys.map((key, index)=>{
-        return <td class="editRow" style={{backgroundColor:index === '7' ? 'rgb(244,245,247)' : null,fontWeight:index === '7' ? '800' : null}} key={props.data[key]}>{props.data[key]}</td>
+        return <td class="editRow" style={{backgroundColor:index == '7' ? 'rgb(244,245,247)' : null,fontWeight:index == '7' ? '800' : null}} key={props.data[key]}>{props.data[key]}</td>
         })
        },
 
@@ -31,21 +31,21 @@ export default{
                     return  <ProgressBar.displayProgressBar aValue={props.data[key]} bar={bar} colors={colors}/>
                 }
 
-                if(key === 'Original_Estimate_in_days') {
+                if(key === 'Original_Estimate_in_hour') {
                     let colors='#654982';
                     let bar = props.data[key] * 100 / props.item.originalSum;
                     bar = Math.floor(bar)
                     return  <ProgressBar.displayProgressBar aValue={props.data[key]} bar={bar} colors={colors}/>
                 }
 
-                if(key === 'remaining_Estimate_in_days') {
+                if(key === 'remaining_Estimate_in_hour') {
                     let colors = '#f15c75';
                     let bar = props.data[key] * 100 / props.item.remainingSum;
                     bar = Math.floor(bar)
                     return  <ProgressBar.displayProgressBar aValue={props.data[key]} bar={bar} colors={colors}/>
                 }
                     
-                if(key === 'time_Spent_in_days') {
+                if(key === 'time_Spent_in_hour') {
                     let colors ="#14892c";
                     let bar = props.data[key] * 100 / props.item.spentSum;
                     bar = Math.floor(bar)

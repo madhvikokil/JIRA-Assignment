@@ -88,9 +88,9 @@ class Fetch extends React.Component{
             user : res.issues[0].fields.assignee.name,
             issue_count : finalCount,
             story_Point : storyPoint,
-            Original_Estimate_in_days : value2,
-            remaining_Estimate_in_days : value3,
-            time_Spent_in_days : value
+            Original_Estimate_in_hour : value2,
+            remaining_Estimate_in_hour : value3,
+            time_Spent_in_hour : value
           }
        
         this.setState({actualData:[...this.state.actualData,obj]});
@@ -99,9 +99,9 @@ class Fetch extends React.Component{
           for(let i=0;i<this.state.actualData.length;i++) {
             issueCountSum = issueCountSum + this.state.actualData[i].issue_count;
             storyPointSum = storyPointSum + this.state.actualData[i].story_Point;
-            originalSum = originalSum + this.state.actualData[i].Original_Estimate_in_days;
-            remainingSum = remainingSum + this.state.actualData[i].remaining_Estimate_in_days;
-            spentSum = spentSum + this.state.actualData[i].time_Spent_in_days;
+            originalSum = originalSum + this.state.actualData[i].Original_Estimate_in_hour;
+            remainingSum = remainingSum + this.state.actualData[i].remaining_Estimate_in_hour;
+            spentSum = spentSum + this.state.actualData[i].time_Spent_in_hour;
           }
 
           let obj2 = {
